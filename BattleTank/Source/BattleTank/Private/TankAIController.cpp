@@ -18,6 +18,17 @@ void ATankAIController::BeginPlay()
 	}
 }
 
+void ATankAIController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	//if main tank exist then aim towards it
+	if (GetPlayerTank())
+	{
+		MainTankLocation = GetPlayerTank()->GetActorLocation();
+		GetAIPossesdTank()->AimAt(MainTankLocation);
+	}	
+}
+
 ATank* ATankAIController::GetAIPossesdTank() const
 {
 	return Cast<ATank>(GetPawn());
@@ -29,8 +40,5 @@ ATank* ATankAIController::GetPlayerTank() const
 	{
 		return Cast<ATank>(Player0TankPawn);	
 	}
-	else
-	{
 	return nullptr;	
-	}
 }

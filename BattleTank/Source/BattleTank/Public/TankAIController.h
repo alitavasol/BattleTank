@@ -16,4 +16,9 @@ private:
 	
 	ATank* GetAIPossesdTank() const;
 	ATank* GetPlayerTank() const;
+
+	FVector MainTankLocation;
+
+public:
+	virtual void Tick(float DeltaSeconds) override;
 };
