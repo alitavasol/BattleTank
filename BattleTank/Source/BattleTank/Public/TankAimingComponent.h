@@ -16,6 +16,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	void SetBarrelReference(UStaticMeshComponent* BarrelSetter);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -27,4 +29,6 @@ public:
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
 	void AimAt(FVector HitLocation) const;
 
+private:
+	UStaticMeshComponent* Barrel = nullptr;
 };
