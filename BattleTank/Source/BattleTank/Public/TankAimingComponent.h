@@ -27,7 +27,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
-	void AimAt(FVector HitLocation) const;
+	void AimAt(FVector HitLocation, float ProjectileSpeed) const;
 
 private:
 	UStaticMeshComponent* Barrel = nullptr;

@@ -38,11 +38,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 //Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations and if AI is possessing this tank then its the player main tank location)
-void UTankAimingComponent::AimAt(FVector HitLocation) const
+void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed) const
 {
-	auto BarrelLocation =  Barrel->GetComponentLocation();
-	const FString OurTankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s Is Aiming At %s From Tip of the barrel located at %s"), *OurTankName, *HitLocation.ToString(),*BarrelLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Firing Projectile At Speed Of: %f KM/S"), ProjectileSpeed*0.00001);
 }
 
 
