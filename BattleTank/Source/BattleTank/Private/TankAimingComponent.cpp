@@ -2,8 +2,7 @@
 
 
 #include "TankAimingComponent.h"
-
-#include "Tank.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -37,10 +36,30 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 	// ...
 }
-//Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations and if AI is possessing this tank then its the player main tank location)
+//Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
+//and if AI is possessing this tank then its the player main tank location)
 void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("Firing Projectile At Speed Of: %f KM/S"), ProjectileSpeed*0.00001);
+	//protecting pointer
+	if (!Barrel){ return; }
+	//calculating an launch velocity for a projectile to hit our hit location point.
+	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));//Start location of projectile is the tip of the barrel.
+	FVector SuggestedOutTossVelocityByEngine;//Output velocity of SuggestProjectileVelocity Method.
+	//If Succeeded To return the toss velocity then do the things we desire.
+	if (UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			SuggestedOutTossVelocityByEngine,
+			StartLocation,
+			HitLocation,
+			ProjectileSpeed
+		)
+	)
+	{
+		//if we normalize the toss velocity that engine gave us we can calculate the Aim Direction.
+		auto AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("Aim Direction Calculated By Engine = %s"), *AimDirection.ToString());
+	}
 }
 
 
