@@ -18,17 +18,13 @@ public:
 
 	void SetBarrelReference(UStaticMeshComponent* BarrelSetter);
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+public:
+	//TODO AddSetTurretReference
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
-	void AimAt(FVector HitLocation, float ProjectileSpeed) const;
+	void AimAt(FVector HitLocation, float ProjectileSpeed);
 
 private:
 	UStaticMeshComponent* Barrel = nullptr;
+
+	void MoveBarrelTowards(FVector AimDirection);
 };

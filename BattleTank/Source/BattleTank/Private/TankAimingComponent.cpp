@@ -19,26 +19,9 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelSetter
 	Barrel = BarrelSetter;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
 //Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
 //and if AI is possessing this tank then its the player main tank location)
-void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed) const
+void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
 {
 	//protecting pointer
 	if (!Barrel){ return; }
@@ -58,8 +41,19 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed) con
 	{
 		//if we normalize the toss velocity that engine gave us we can calculate the Aim Direction.
 		auto AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Aim Direction Calculated By Engine = %s"), *AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+	//Work-out deference between current barrel rotation and AimDirection
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto AimDirectionConvertedToRotation = AimDirection.Rotation();
+	auto DELTARotation = AimDirectionConvertedToRotation - BarrelRotation;//delta R = R2 - R1;
+	UE_LOG(LogTemp, Warning, TEXT("AimDirection As Rotation = %s"), *AimDirectionConvertedToRotation.ToString());
+	//Move the barrel right amount this frame
+	//Given max elevation speed and the frame time
 }
 
 
