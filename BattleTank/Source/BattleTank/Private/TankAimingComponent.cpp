@@ -10,7 +10,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = true;//TODO Should This Tick?
 
 	// ...
 }
@@ -34,19 +34,20 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));//Start location of projectile is the tip of the barrel.
 	FVector SuggestedOutTossVelocityByEngine;//Output velocity of SuggestProjectileVelocity Method.
 	//If Succeeded To return the toss velocity then do the things we desire.
-	if (UGameplayStatics::SuggestProjectileVelocity
-		(
-			this,
-			SuggestedOutTossVelocityByEngine,
-			StartLocation,
-			HitLocation,
-			ProjectileSpeed
-		)
-	)
+	bool CouldCalculateTossVelosity = UGameplayStatics::SuggestProjectileVelocity(this,SuggestedOutTossVelocityByEngine,StartLocation,HitLocation,ProjectileSpeed);
+	if(CouldCalculateTossVelosity == true)
 	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("Aim solution Passed"),Time);
 		//if we normalize the toss velocity that engine gave us we can calculate the Aim Direction.
 		auto AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+	}
+	else if (CouldCalculateTossVelosity == false)
+	{
+		//Engine Failed to Calculate Toss Velocity For us
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("Aim solution Failed"),Time);
 	}
 }
 
