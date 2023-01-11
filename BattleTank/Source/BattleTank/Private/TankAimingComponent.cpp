@@ -3,6 +3,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -10,7 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;//TODO Should This Tick?
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -21,7 +22,18 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelSetter)
 	if (BarrelSetter == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("BarrelSetter == Nullptr"))
+		return;
 	}
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretSetter)
+{
+	if (TurretSetter == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("TurretSetter == Nullptr"))
+		return;
+	}
+	Turret = TurretSetter;
 }
 
 //Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
@@ -29,7 +41,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelSetter)
 void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
 {
 	//protecting pointer
-	if (Barrel == nullptr){ return; }
+	if (Barrel == nullptr|| !Turret){ return; }
 	//calculating an launch velocity for a projectile to hit our hit location point.
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));//Start location of projectile is the tip of the barrel.
 	FVector SuggestedOutTossVelocityByEngine;//Output velocity of SuggestProjectileVelocity Method.
@@ -70,7 +82,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimDirectionConvertedToRotation = AimDirection.Rotation();
 	auto DELTARotation = AimDirectionConvertedToRotation - BarrelRotation;//delta R = R2 - R1;
 
-	Barrel->ElevateBarrel(5);//TODO Replace Dog Number with a reasonable one.
+	Barrel->ElevateBarrel(DELTARotation.Pitch);
+	Turret->RotateTurret(DELTARotation.Yaw);
 }
 
 
