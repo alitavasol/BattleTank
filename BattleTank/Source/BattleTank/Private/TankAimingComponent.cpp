@@ -62,7 +62,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
 	if(CouldCalculateTossVelosity == true)
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f Aim solution Passed"),Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f Aim solution Passed"),Time);
 		//if we normalize the toss velocity that engine gave us we can calculate the Aim Direction.
 		auto AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
