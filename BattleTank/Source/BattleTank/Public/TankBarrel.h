@@ -15,10 +15,10 @@ public:
 	void ElevateBarrel(float RelativeSpeed);
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Setup For Designer")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup For Designer")
 	float MaxDegreesPerSecond = 5;
-	UPROPERTY(EditAnywhere, Category = "Setup For Designer")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup For Designer")
 	float MaxElevationDegrees = 40;
-	UPROPERTY(EditAnywhere, Category = "Setup For Designer")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup For Designer")
 	float MinElevationDegrees = 0;
 };

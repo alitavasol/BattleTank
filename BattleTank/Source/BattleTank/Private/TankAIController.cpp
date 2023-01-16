@@ -7,15 +7,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto const TankPawn = GetPlayerTank();
-	if (TankPawn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player 0 found by AI, Player 0  id = %s"), *(TankPawn->GetName()));
-	}
-	if (!TankPawn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Could NOT find Player 0 (Player 0 = null)"));
-	}
 }
 
 void ATankAIController::Tick(float DeltaSeconds)
@@ -26,6 +17,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	{
 		MainTankLocation = GetPlayerTank()->GetActorLocation();
 		GetAIPossesdTank()->AimAt(MainTankLocation);
+		GetAIPossesdTank()->Fire();
 	}	
 }
 
