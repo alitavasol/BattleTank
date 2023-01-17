@@ -23,5 +23,5 @@ public:
 private:
 	//Max Force Per track, in newtons
 	UPROPERTY(EditDefaultsOnly, Category = "input", meta = (AllowPrivateAccess = true))
-	float MaxDrivingForce = 400000; //F = ma , Mass = 40 tonne , Acceleration = 10m/s/s
+	float MaxDrivingForce = 40000000.0; //F = ma , Mass = 40 tonne , Acceleration = 10m/s/s
 };
