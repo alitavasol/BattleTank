@@ -27,7 +27,9 @@ void UTankNavMovementComponent::RequestDirectMove(const FVector& MoveVelocity, b
 	auto TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIVectorIntention = MoveVelocity.GetSafeNormal();
 
-	auto ZarbeDakheli = FVector::DotProduct(TankForwardVector, AIVectorIntention);
+	auto ZarbeDakheli = FVector::DotProduct(TankForwardVector, AIVectorIntention);// is a measure of how closely two vectors align, in terms of the directions they point.
+	auto ZarbeBordari = FVector::CrossProduct(TankForwardVector, AIVectorIntention);//gives us a Z vector between -1 and 1 and we dont rotate if 0, right and left if 1 and -1
 	IntendMoveForward(ZarbeDakheli);
+	TurnRight(ZarbeBordari.Z);
 }
 
