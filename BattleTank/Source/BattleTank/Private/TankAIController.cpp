@@ -15,6 +15,9 @@ void ATankAIController::Tick(float DeltaSeconds)
 	//if main tank exist then aim towards it
 	if (GetPlayerTank())
 	{
+		//Move To main player tank
+		MoveToActor(GetPlayerTank(),AcceptanceRadius);
+		
 		MainTankLocation = GetPlayerTank()->GetActorLocation();
 		GetAIPossesdTank()->AimAt(MainTankLocation);
 		GetAIPossesdTank()->Fire();
