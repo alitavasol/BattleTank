@@ -23,8 +23,11 @@ void UTankNavMovementComponent::Initialize(UTankTrack* RightTrackToSet, UTankTra
 
 void UTankNavMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	auto TankName = GetOwner()->GetName();
-	auto Time = GetWorld()->TimeSeconds;
-	UE_LOG(LogTemp,Warning,TEXT("%f Name = %s and Move Velocity = %s"),Time, *TankName, *MoveVelocity.ToString())
+	//no need to call super and inherit from the parent class implementation.
+	auto TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIVectorIntention = MoveVelocity.GetSafeNormal();
+
+	auto ZarbeDakheli = FVector::DotProduct(TankForwardVector, AIVectorIntention);
+	IntendMoveForward(ZarbeDakheli);
 }
 

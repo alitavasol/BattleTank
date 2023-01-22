@@ -19,7 +19,7 @@ private:
 
 	FVector MainTankLocation;
 
-	float AcceptanceRadius = 3;
+	float AcceptanceRadius = 3000;
 public:
 	virtual void Tick(float DeltaSeconds) override;
 };
