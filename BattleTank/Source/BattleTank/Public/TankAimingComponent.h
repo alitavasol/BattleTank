@@ -7,6 +7,14 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	MovingBarrel,
+	ReadyToFire
+};
+
 //Forward Declaration
 class UTankBarrel;
 class UTankTurret;
@@ -22,8 +30,7 @@ public:
 
 	void SetBarrelReference(UTankBarrel* BarrelSetter);
 	void SetTurretReference(UTankTurret* TurretSetter);
-
-public:
+	
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
 	void AimAt(FVector HitLocation, float ProjectileSpeed);
 
@@ -34,4 +41,8 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection);
+
+protected:
+	UPROPERTY(BlueprintReadOnly, category = "FiringState")
+	EFiringState FiringState = EFiringState::Reloading;
 };
