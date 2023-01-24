@@ -48,7 +48,7 @@ void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurr
 void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
 {
 	//protecting pointer
-	if (Barrel == nullptr|| !Turret){ return; }
+	if (!ensure(Barrel|| Turret)){ return; }
 	//calculating an launch velocity for a projectile to hit our hit location point.
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));//Start location of projectile is the tip of the barrel.
 	FVector SuggestedOutTossVelocityByEngine;//Output velocity of SuggestProjectileVelocity Method.
