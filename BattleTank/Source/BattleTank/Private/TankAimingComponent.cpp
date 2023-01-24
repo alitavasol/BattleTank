@@ -15,26 +15,34 @@ UTankAimingComponent::UTankAimingComponent()
 
 	// ...
 }
-//This Will be called from Tank.cpp and pass the barrel static mesh from bluePrint to us
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelSetter)
+
+void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP)
 {
-	Barrel = BarrelSetter;
-	if (BarrelSetter == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("BarrelSetter == Nullptr"))
-		return;
-	}
+	if (!GiveMeBarrelFromBP || !GiveMeTurretFromBP){ return; }
+	Barrel = GiveMeBarrelFromBP;
+	Turret = GiveMeTurretFromBP;
 }
 
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretSetter)
-{
-	if (TurretSetter == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TurretSetter == Nullptr"))
-		return;
-	}
-	Turret = TurretSetter;
-}
+//This Will be called from Tank.cpp and pass the barrel static mesh from bluePrint to us
+// void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelSetter)
+// {
+// 	Barrel = BarrelSetter;
+// 	if (BarrelSetter == nullptr)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("BarrelSetter == Nullptr"))
+// 		return;
+// 	}
+// }
+
+// void UTankAimingComponent::SetTurretReference(UTankTurret* TurretSetter)
+// {
+// 	if (TurretSetter == nullptr)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("TurretSetter == Nullptr"))
+// 		return;
+// 	}
+// 	Turret = TurretSetter;
+// }
 
 //Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
 //and if AI is possessing this tank then its the player main tank location)

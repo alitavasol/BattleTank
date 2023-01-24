@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
@@ -19,7 +20,7 @@ enum class EFiringState : uint8
 class UTankBarrel;
 class UTankTurret;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=("Custom"), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -28,8 +29,11 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelReference(UTankBarrel* BarrelSetter);
-	void SetTurretReference(UTankTurret* TurretSetter);
+	// void SetBarrelReference(UTankBarrel* BarrelSetter);
+	// void SetTurretReference(UTankTurret* TurretSetter);
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP);
 	
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
 	void AimAt(FVector HitLocation, float ProjectileSpeed);
