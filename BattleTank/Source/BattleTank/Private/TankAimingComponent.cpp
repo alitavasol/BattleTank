@@ -18,7 +18,6 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP)
 {
-	if (!GiveMeBarrelFromBP || !GiveMeTurretFromBP){ return; }
 	Barrel = GiveMeBarrelFromBP;
 	Turret = GiveMeTurretFromBP;
 }
