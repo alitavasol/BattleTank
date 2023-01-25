@@ -45,10 +45,10 @@ void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurr
 
 //Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
 //and if AI is possessing this tank then its the player main tank location)
-void UTankAimingComponent::AimAt(FVector HitLocation, float ProjectileSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	//protecting pointer
-	if (!ensure(Barrel|| Turret)){ return; }
+	if (!ensure(Barrel || Turret)){ return; }
 	//calculating an launch velocity for a projectile to hit our hit location point.
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));//Start location of projectile is the tip of the barrel.
 	FVector SuggestedOutTossVelocityByEngine;//Output velocity of SuggestProjectileVelocity Method.

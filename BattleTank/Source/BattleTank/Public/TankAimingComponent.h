@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
@@ -36,7 +34,7 @@ public:
 	void Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP);
 	
 	//Aim At Hit Location That we declared in TankPlayer controller by ray casting throw aim UI to world with a max range.
-	void AimAt(FVector HitLocation, float ProjectileSpeed);
+	void AimAt(FVector HitLocation) ;
 
 private:
 	//Will be set in my cpp with the barrel fbx sent throw blueprint via Tank C++ class and barrel has his own c++ class
@@ -44,6 +42,9 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Fire Setup", meta = (AllowPrivateAccess = true))
+	float ProjectileSpeed = 50000; //0.5 km per second is the speed of projectile and can be changed.
+	
 	void MoveBarrelTowards(FVector AimDirection);
 
 protected:

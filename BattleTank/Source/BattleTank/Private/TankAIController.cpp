@@ -2,38 +2,26 @@
 
 
 #include "TankAIController.h"
-#include "Tank.h"
+#include "TankAimingComponent.h"
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+	MyAITank = GetPawn();
+	PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	//if main tank exist then aim towards it
-	if (GetPlayerTank())
-	{
-		//Move To main player tank
-		MoveToActor(GetPlayerTank(),AcceptanceRadius);
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(PlayerTank && MyAITank)){ return; }
+	//Move To main player tank
+	MoveToActor(PlayerTank,AcceptanceRadius);
 		
-		MainTankLocation = GetPlayerTank()->GetActorLocation();
-		GetAIPossesdTank()->AimAt(MainTankLocation);
-		GetAIPossesdTank()->Fire();
-	}	
-}
-
-ATank* ATankAIController::GetAIPossesdTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	if (auto const Player0TankPawn = GetWorld()->GetFirstPlayerController()->GetPawn())
-	{
-		return Cast<ATank>(Player0TankPawn);	
-	}
-	return nullptr;	
+	MainTankLocation = PlayerTank->GetActorLocation();
+	AimingComponent->AimAt(MainTankLocation);
+	//TODO Fix fire method.
+	//MyAITank->Fire();
+	// GetAIPossesdTank()->Fire();
 }
