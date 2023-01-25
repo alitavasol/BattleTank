@@ -2,6 +2,7 @@
 
 
 #include "TankAimingComponent.h"
+#include "Projectile.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
@@ -16,35 +17,17 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP)
 {
 	Barrel = GiveMeBarrelFromBP;
 	Turret = GiveMeTurretFromBP;
 }
 
-//This Will be called from Tank.cpp and pass the barrel static mesh from bluePrint to us
-// void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelSetter)
-// {
-// 	Barrel = BarrelSetter;
-// 	if (BarrelSetter == nullptr)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("BarrelSetter == Nullptr"))
-// 		return;
-// 	}
-// }
-
-// void UTankAimingComponent::SetTurretReference(UTankTurret* TurretSetter)
-// {
-// 	if (TurretSetter == nullptr)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("TurretSetter == Nullptr"))
-// 		return;
-// 	}
-// 	Turret = TurretSetter;
-// }
-
-//Aim At hit location pass throw tank player controller or AI Controller (if player controller then its land scape locations
-//and if AI is possessing this tank then its the player main tank location)
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	//protecting pointer
@@ -85,5 +68,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->ElevateBarrel(DELTARotation.Pitch);
 	Turret->RotateTurret(DELTARotation.Yaw);
 }
+
+void UTankAimingComponent::Fire()
+{
+	bool IsTankRelaoded = (GetWorld()->TimeSeconds - LastTimeFired) > RelaodCD;
+	if (ensure(Barrel && ProjectileBlueprint ) && IsTankRelaoded)
+	{
+		auto SpawnLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));
+		auto SpawnRotation = Barrel->GetSocketRotation(FName("ProjectileLauncher"));
+		auto SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
+		SpawnedProjectile->LaunchProjectile(ProjectileSpeed);
+		LastTimeFired = GetWorld()->TimeSeconds;
+	}
+}
+
 
 

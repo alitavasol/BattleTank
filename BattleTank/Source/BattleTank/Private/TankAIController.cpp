@@ -21,6 +21,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 		
 	MainTankLocation = PlayerTank->GetActorLocation();
 	AimingComponent->AimAt(MainTankLocation);
+	AimingComponent->Fire();
 	//TODO Fix fire method.
 	//MyAITank->Fire();
 	// GetAIPossesdTank()->Fire();
