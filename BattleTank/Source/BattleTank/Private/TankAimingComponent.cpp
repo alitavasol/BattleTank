@@ -26,18 +26,21 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	// if ((GetWorld()->TimeSeconds - LastTimeFired) < RelaodCD)
-	// {
-	// 	FiringState = EFiringState::Reloading;
-	// }
-	// else if (false)
-	// {
-	// 	FiringState = EFiringState::MovingBarrel;
-	// }
-	// else
-	// {
-	// 	FiringState = EFiringState::ReadyToFire;
-	// }
+	if ((GetWorld()->TimeSeconds - LastTimeFired) < RelaodCD)
+	{
+		FiringState = EFiringState::Reloading;
+		UE_LOG(LogTemp, Warning, TEXT("Reloading"))
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::MovingBarrel;
+		UE_LOG(LogTemp, Warning, TEXT("Moving Barrel"))
+	}
+	else
+	{
+		FiringState = EFiringState::ReadyToFire;
+		UE_LOG(LogTemp, Warning, TEXT("Ready To Fire"))
+	}
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* GiveMeBarrelFromBP, UTankTurret* GiveMeTurretFromBP)
@@ -70,13 +73,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	if(CouldCalculateTossVelosity == true)
 	{
 		//if we normalize the toss velocity that engine gave us we can calculate the Aim Direction.
-		auto AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
-		MoveBarrelTowards(AimDirection);
-		//IsBarrelMoving(AimDirection);
+		AimDirection = SuggestedOutTossVelocityByEngine.GetSafeNormal();
+		MoveBarrelTowards();
 	}
 }
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards()
 {
 	//Work-out deference between current barrel rotation and AimDirection
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
@@ -99,17 +101,17 @@ void UTankAimingComponent::Fire()
 		LastTimeFired = GetWorld()->TimeSeconds;
 	}
 }
-//
-// bool UTankAimingComponent::IsBarrelMoving(FVector AimDirection)
-// {
-// 	double DifferenceTolerance = 0.01;
-// 	FVector BarrelLocation = Barrel->GetComponentLocation();
-// 	if (BarrelLocation.Equals(AimDirection, DifferenceTolerance))
-// 	{
-// 		return true;
-// 	}
-// 	return false;
-// }
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if(!ensure(Barrel)) { return false; }
+	FVector BarrelForward = Barrel->GetForwardVector();
+	if (BarrelForward.Equals(AimDirection, 0.1))
+	{
+		return false;
+	}
+	return true;
+}
 
 
 

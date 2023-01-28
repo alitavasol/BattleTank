@@ -52,7 +52,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Fire Setup", meta = (AllowPrivateAccess = true))
 	float RelaodCD = 3;
 	
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, category = "FiringState")
@@ -67,6 +67,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void Fire();
 
-// private:
-// 	bool IsBarrelMoving(FVector AimDirection);
+private:
+	bool IsBarrelMoving();
+	FVector AimDirection;
 };
