@@ -43,6 +43,8 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 	double LastTimeFired = 0;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Fire Setup", meta = (AllowPrivateAccess = true))
@@ -64,4 +66,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 	void Fire();
+
+// private:
+// 	bool IsBarrelMoving(FVector AimDirection);
 };
