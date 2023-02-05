@@ -6,8 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-UENUM()
-enum class EFiringState : uint8
+UENUM(BlueprintType)
+enum EFiringState
 {
 	Reloading,
 	MovingBarrel,
@@ -56,7 +56,8 @@ private:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, category = "FiringState")
-	EFiringState FiringState = EFiringState::Reloading;
+	// EFiringState FiringState = EFiringState::Reloading;
+	TEnumAsByte<EFiringState> FiringState = Reloading;
 
 	virtual void BeginPlay() override;
 	

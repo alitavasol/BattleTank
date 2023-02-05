@@ -26,20 +26,19 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *TankName, *UEnum::GetValueAsString(FiringState.GetValue()))
 	if ((GetWorld()->TimeSeconds - LastTimeFired) < RelaodCD)
 	{
-		FiringState = EFiringState::Reloading;
-		UE_LOG(LogTemp, Warning, TEXT("Reloading"))
+		FiringState = Reloading;
 	}
 	else if (IsBarrelMoving())
 	{
-		FiringState = EFiringState::MovingBarrel;
-		UE_LOG(LogTemp, Warning, TEXT("Moving Barrel"))
+		FiringState = MovingBarrel;
 	}
 	else
 	{
-		FiringState = EFiringState::ReadyToFire;
-		UE_LOG(LogTemp, Warning, TEXT("Ready To Fire"))
+		FiringState = ReadyToFire;
 	}
 }
 
