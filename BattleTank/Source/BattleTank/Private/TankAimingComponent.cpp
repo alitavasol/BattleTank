@@ -26,8 +26,7 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *TankName, *UEnum::GetValueAsString(FiringState.GetValue()))
+	//Setting Enum Stats.
 	if ((GetWorld()->TimeSeconds - LastTimeFired) < RelaodCD)
 	{
 		FiringState = Reloading;
