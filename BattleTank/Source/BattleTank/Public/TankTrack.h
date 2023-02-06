@@ -23,4 +23,14 @@ private:
 	//Max Force Per track, in newtons
 	UPROPERTY(EditDefaultsOnly, Category = "input", meta = (AllowPrivateAccess = true))
 	float MaxDrivingForce = 45000000.0; //F = ma , Mass = 40 tonne , Acceleration = 10m/s/s
+
+	//Constructor
+	UTankTrack();
+
+	UStaticMeshComponent* TankRootAsStaticMesh = nullptr;
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+protected:
+	virtual void BeginPlay() override;
 };
