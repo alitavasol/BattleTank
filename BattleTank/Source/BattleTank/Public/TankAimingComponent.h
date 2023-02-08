@@ -11,7 +11,8 @@ enum EFiringState
 {
 	Reloading,
 	MovingBarrel,
-	ReadyToFire
+	ReadyToFire,
+	OutOfAmmo
 };
 
 //Forward Declaration
@@ -69,7 +70,12 @@ public:
 
 	//Read only enum firing state getter.
 	EFiringState FireStateGetter() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int AmmoLeftGetter() const;
 private:
 	bool IsBarrelMoving();
 	FVector AimDirection;
+
+	int AmmoLeft = 3;
 };
