@@ -72,10 +72,11 @@ public:
 	EFiringState FireStateGetter() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	int AmmoLeftGetter() const;
+	int32 AmmoLeftGetter() const;
 private:
 	bool IsBarrelMoving();
 	FVector AimDirection;
 
-	int AmmoLeft = 3;
+	UPROPERTY(EditAnywhere, Category = "Ammo", meta = (AllowPrivateAccess = true))
+	int32 AmmoLeft = 3;
 };

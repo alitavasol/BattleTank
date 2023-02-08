@@ -104,6 +104,7 @@ void UTankAimingComponent::Fire()
 	if (FiringState == ReadyToFire || FiringState == MovingBarrel)
 	{
 		if(!ensure(Barrel && ProjectileBlueprint)) { return; }
+		if(!ProjectileBlueprint) { UE_LOG(LogTemp, Warning, TEXT("Set Projectile BluePrint in Tank BP (Aiming Component)")) }
 		auto SpawnLocation = Barrel->GetSocketLocation(FName("ProjectileLauncher"));
 		auto SpawnRotation = Barrel->GetSocketRotation(FName("ProjectileLauncher"));
 		auto SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnLocation, SpawnRotation);
@@ -129,7 +130,7 @@ EFiringState UTankAimingComponent::FireStateGetter() const
 	return FiringState;
 }
 
-int UTankAimingComponent::AmmoLeftGetter() const
+int32 UTankAimingComponent::AmmoLeftGetter() const
 {
 	return AmmoLeft;
 }
