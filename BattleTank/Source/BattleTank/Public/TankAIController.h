@@ -20,7 +20,9 @@ private:
 	
 	FVector MainTankLocation;
 
-	float AcceptanceRadius = 3000;
+	UPROPERTY(EditDefaultsOnly, Category = "Radius", meta = (AllowPrivateAccess = true));
+	float AcceptanceRadius = 4000;
+	
 public:
 	virtual void Tick(float DeltaSeconds) override;
 };

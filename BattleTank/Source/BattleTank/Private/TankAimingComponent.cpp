@@ -119,6 +119,11 @@ bool UTankAimingComponent::IsBarrelMoving()
 	return true;
 }
 
+EFiringState UTankAimingComponent::FireStateGetter() const
+{
+	return FiringState;
+}
+
 
 
 
