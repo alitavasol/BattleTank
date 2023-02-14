@@ -17,7 +17,7 @@ AProjectile::AProjectile()
 	CollisionMesh->SetNotifyRigidBodyCollision(true);//Simulation Generates Hit Box Will Be Set to true By default.
 	CollisionMesh->SetVisibility(false);
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-	LaunchBlast->AttachToComponent(CollisionMesh,FAttachmentTransformRules::KeepRelativeTransform,NAME_None);
+	//LaunchBlast->AttachToComponent(CollisionMesh,FAttachmentTransformRules::KeepRelativeTransform,NAME_None);
 }
 
 // Called when the game starts or when spawned
