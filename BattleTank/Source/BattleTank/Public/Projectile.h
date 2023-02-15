@@ -25,6 +25,8 @@ public:
 	void LaunchProjectile(float Speed);
 
 private:
+	void OnTimerExpireDelegate();
+	
 	UProjectileMovementComponent* PtrToProjectileMovementComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
@@ -35,6 +37,8 @@ private:
 	UParticleSystemComponent* ImpactBlast = nullptr;
 	UPROPERTY(EditDefaultsOnly, Category = "Explosion")
 	URadialForceComponent* ExplosionForce = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (AllowPrivateAccess = true))
+	float DestroyDelay = 10.0f;
 	
 	//On Component Hit Event.
 	UFUNCTION()
