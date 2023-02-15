@@ -8,7 +8,6 @@
 // Sets default values
 AProjectile::AProjectile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	PtrToProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	PtrToProjectileMovementComponent->bAutoActivate = false;
@@ -16,21 +15,32 @@ AProjectile::AProjectile()
 	RootComponent = CollisionMesh;
 	CollisionMesh->SetNotifyRigidBodyCollision(true);//Simulation Generates Hit Box Will Be Set to true By default.
 	CollisionMesh->SetVisibility(false);
+	
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 	LaunchBlast->AttachToComponent(CollisionMesh,FAttachmentTransformRules::KeepRelativeTransform);
+	
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->AttachToComponent(CollisionMesh,FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnCompHit);
 }
 //projectile launcher
 void AProjectile::LaunchProjectile(float Speed)
 {
 	PtrToProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	PtrToProjectileMovementComponent->Activate();
+}
+
+void AProjectile::OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
 
 

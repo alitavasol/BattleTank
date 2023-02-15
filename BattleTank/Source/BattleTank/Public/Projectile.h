@@ -30,4 +30,9 @@ private:
 	UStaticMeshComponent* CollisionMesh = nullptr;
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	UParticleSystemComponent* LaunchBlast = nullptr;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	UParticleSystemComponent* ImpactBlast = nullptr;
+	//On Component Hit Event.
+	UFUNCTION()
+	void OnCompHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
